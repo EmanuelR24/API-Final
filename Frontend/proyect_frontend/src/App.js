@@ -27,14 +27,16 @@ function App() {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={!token ? <Login onLogin={login} /> : <Navigate to="/products" />} />
-        <Route path="/products" element={token ? <Products token={token} authConfig={authConfig} onLogout={logout} /> : <Navigate to="/login" />} />
-        <Route path="/orders" element={token ? <Orders token={token} authConfig={authConfig} onLogout={logout} /> : <Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to={token ? "/products" : "/login"} />} />
-      </Routes>
-    </Router>
+    <div className="app">
+      <Router>
+        <Routes>
+          <Route path="/login" element={!token ? <Login onLogin={login} /> : <Navigate to="/products" />} />
+          <Route path="/products" element={token ? <Products token={token} authConfig={authConfig} onLogout={logout} /> : <Navigate to="/login" />} />
+          <Route path="/orders" element={token ? <Orders token={token} authConfig={authConfig} onLogout={logout} /> : <Navigate to="/login" />} />
+          <Route path="*" element={<Navigate to={token ? "/products" : "/login"} />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
@@ -48,7 +50,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="login-form">
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
       <button type="submit">Login</button>
@@ -59,6 +61,7 @@ function Login({ onLogin }) {
 function Products({ token, authConfig, onLogout }) {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({ nombre: '', descripcion: '', precio: '', stock: '', categoria: '' });
+  const [editProduct, setEditProduct] = useState(null);
 
   useEffect(() => {
     axios.get(`${API_URL}/api/products`, authConfig)
@@ -71,7 +74,6 @@ function Products({ token, authConfig, onLogout }) {
     try {
       await axios.post(`${API_URL}/api/products`, newProduct, authConfig);
       setNewProduct({ nombre: '', descripcion: '', precio: '', stock: '', categoria: '' });
-      // Refetch products
       const res = await axios.get(`${API_URL}/api/products`, authConfig);
       setProducts(res.data);
     } catch (err) {
@@ -79,18 +81,65 @@ function Products({ token, authConfig, onLogout }) {
     }
   };
 
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    if (editProduct) {
+      try {
+        await axios.put(`${API_URL}/api/products/${editProduct._id}`, editProduct, authConfig);
+        setEditProduct(null);
+        const res = await axios.get(`${API_URL}/api/products`, authConfig);
+        setProducts(res.data);
+      } catch (err) {
+        console.error('Update product failed:', err);
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/api/products/${id}`, authConfig);
+      const res = await axios.get(`${API_URL}/api/products`, authConfig);
+      setProducts(res.data);
+    } catch (err) {
+      console.error('Delete product failed:', err);
+    }
+  };
+
   return (
-    <div>
+    <div className="products-container">
       <button onClick={onLogout}>Logout</button>
-      <form onSubmit={handleCreate}>
-        <input value={newProduct.nombre} onChange={(e) => setNewProduct({ ...newProduct, nombre: e.target.value })} placeholder="Nombre" />
-        <input value={newProduct.descripcion} onChange={(e) => setNewProduct({ ...newProduct, descripcion: e.target.value })} placeholder="Descripción" />
-        <input value={newProduct.precio} onChange={(e) => setNewProduct({ ...newProduct, precio: e.target.value })} placeholder="Precio" />
-        <input value={newProduct.stock} onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })} placeholder="Stock" />
-        <input value={newProduct.categoria} onChange={(e) => setNewProduct({ ...newProduct, categoria: e.target.value })} placeholder="Categoría" />
-        <button type="submit">Crear Producto</button>
+      <form onSubmit={editProduct ? handleUpdate : handleCreate}>
+        <input value={editProduct ? editProduct.nombre : newProduct.nombre} onChange={(e) => {
+          if (editProduct) setEditProduct({ ...editProduct, nombre: e.target.value });
+          else setNewProduct({ ...newProduct, nombre: e.target.value });
+        }} placeholder="Nombre" />
+        <input value={editProduct ? editProduct.descripcion : newProduct.descripcion} onChange={(e) => {
+          if (editProduct) setEditProduct({ ...editProduct, descripcion: e.target.value });
+          else setNewProduct({ ...newProduct, descripcion: e.target.value });
+        }} placeholder="Descripción" />
+        <input value={editProduct ? editProduct.precio : newProduct.precio} onChange={(e) => {
+          if (editProduct) setEditProduct({ ...editProduct, precio: e.target.value });
+          else setNewProduct({ ...newProduct, precio: e.target.value });
+        }} placeholder="Precio" />
+        <input value={editProduct ? editProduct.stock : newProduct.stock} onChange={(e) => {
+          if (editProduct) setEditProduct({ ...editProduct, stock: e.target.value });
+          else setNewProduct({ ...newProduct, stock: e.target.value });
+        }} placeholder="Stock" />
+        <input value={editProduct ? editProduct.categoria : newProduct.categoria} onChange={(e) => {
+          if (editProduct) setEditProduct({ ...editProduct, categoria: e.target.value });
+          else setNewProduct({ ...newProduct, categoria: e.target.value });
+        }} placeholder="Categoría" />
+        <button type="submit">{editProduct ? 'Actualizar' : 'Crear Producto'}</button>
       </form>
-      <ul>{products.map(p => <li key={p._id}>{p.nombre} (Stock: {p.stock})</li>)}</ul>
+      <ul>
+        {products.map(p => (
+          <li key={p._id}>
+            {p.nombre} (Stock: {p.stock})
+            <button onClick={() => setEditProduct(p)}>Editar</button>
+            <button onClick={() => handleDelete(p._id)}>Eliminar</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -128,7 +177,7 @@ function Orders({ token, authConfig, onLogout }) {
   };
 
   return (
-    <div>
+    <div className="orders-container">
       <button onClick={onLogout}>Logout</button>
       <form onSubmit={handleCreateOrder}>
         <input value={newOrder.usuarioId} onChange={(e) => setNewOrder({ ...newOrder, usuarioId: e.target.value })} placeholder="Usuario ID" />
@@ -136,7 +185,19 @@ function Orders({ token, authConfig, onLogout }) {
         <input value={newOrder.details[0].cantidad} onChange={(e) => setNewOrder({ ...newOrder, details: [{ ...newOrder.details[0], cantidad: e.target.value }] })} placeholder="Cantidad" />
         <button type="submit">Crear Pedido</button>
       </form>
-      <ul>{orders.map(o => <li key={o._id}>{o.total} - {o.estado} <button onClick={() => handleCancelOrder(o._id)}>Cancelar</button></li>)}</ul>
+      <ul>
+        {orders.map(o => (
+          <li key={o._id}>
+            Total: {o.total} - Estado: {o.estado}
+            {o.estado === 'activo' && <button onClick={() => handleCancelOrder(o._id)}>Cancelar</button>}
+            <ul>
+              {o.details.map(d => (
+                <li key={d._id}>Producto: {d.productoId}, Cantidad: {d.cantidad}, Subtotal: {d.subtotal}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
