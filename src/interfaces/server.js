@@ -11,7 +11,11 @@ import orderRoutes from "./routes/orderRoutes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://frontend-gestion-stock.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
