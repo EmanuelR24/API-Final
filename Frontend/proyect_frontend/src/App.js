@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://frontend-gestion-stock.onrender.com';
+const API_URL = process.env.REACT_APP_API_URL || 'https://api-gestion-stock.onrender.com';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
