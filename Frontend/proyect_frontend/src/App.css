@@ -1,0 +1,45 @@
+.dashboard {  
+  display: flex;  
+  height: 100vh;  
+}  
+
+.sidebar {  
+  width: 250px;  
+  background-color: #1a1a1a; /* Negro claro */  
+  padding: 20px;  
+  border-right: 1px solid #6A1B9A; /* Morado */  
+  animation: slideIn 0.5s ease-out; /* Animación de entrada */  
+}  
+
+@keyframes slideIn {  
+  from { transform: translateX(-100%); }  
+  to { transform: translateX(0); }  
+}  
+
+.main-content {  
+  flex: 1;  
+  padding: 20px;  
+  overflow-y: auto;  
+}  
+
+.table {  
+  width: 100%;  
+  border-collapse: collapse;  
+  background-color: #1a1a1a;  
+  border-radius: 8px; /* Bordes redondos */  
+  overflow: hidden;  
+}  
+
+.table th, .table td {  
+  padding: 12px;  
+  text-align: left;  
+  border-bottom: 1px solid #6A1B9A;  
+}  
+
+.table th {  
+  background-color: #6A1B9A; /* Morado */  
+}  
+
+.form-group {  
+  margin-bottom: 15px;  
+}  
