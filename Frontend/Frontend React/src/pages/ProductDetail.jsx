@@ -21,7 +21,7 @@ const ProductDetail = () => {
   if (!product) return <div>Cargando...</div>;
 
   return (
-    <div>
+    <div className="min-h-screen p-6">
       <Navbar />
       <h1>Editar Producto</h1>
       <ProductForm onSubmit={handleUpdate} initialData={product} />

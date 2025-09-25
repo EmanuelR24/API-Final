@@ -11,17 +11,17 @@ const AuthForm = ({ onSubmit, isRegister }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {isRegister && <input name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" required />}
-      <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
-      <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
+    <form onSubmit={handleSubmit} className="bg-dark-bg p-6 rounded-xl max-w-md mx-auto space-y-4">
+      {isRegister && <input name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" required className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />}
+      <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email" required className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
+      <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" required className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
       {isRegister && (
-        <select name="rol" value={formData.rol} onChange={handleChange}>
+        <select name="rol" value={formData.rol} onChange={handleChange} className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white">
           <option value="admin">Admin</option>
           <option value="vendedor">Vendedor</option>
         </select>
       )}
-      <button type="submit">{isRegister ? 'Registrar' : 'Login'}</button>
+      <button type="submit" className="w-full p-2 bg-purple-accent text-soft-white rounded-xl hover:bg-opacity-80 transition-all duration-300">{isRegister ? 'Registrar' : 'Login'}</button>
     </form>
   );
 };

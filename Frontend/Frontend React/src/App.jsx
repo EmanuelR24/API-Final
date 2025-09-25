@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isAuthenticated } from './utils/auth';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
@@ -15,11 +16,12 @@ const App = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
       <Route path="/products/:id" element={<PrivateRoute><ProductDetail /></PrivateRoute>} />
       <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
       <Route path="/orders/:id" element={<PrivateRoute><OrderDetail /></PrivateRoute>} />
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to={isAuthenticated() ? "/dashboard" : "/login"} />} />
     </Routes>
   </Router>
 );

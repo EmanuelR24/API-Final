@@ -15,7 +15,14 @@ const Register = () => {
     }
   };
 
-  return <AuthForm onSubmit={handleRegister} isRegister={true} />;
+    return (
+        <div className="min-h-screen p-6">
+            <header><Navbar /></header>
+                <main>
+                    <AuthForm onSubmit={handleRegister} isRegister={true} />;
+                </main>
+        </div>
+    )
 };
 
 export default Register;

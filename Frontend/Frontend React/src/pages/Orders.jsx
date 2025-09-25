@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderTable from '../components/OrderTable';
-import OrderForm from '../components/OrderForm';
+import OrderForm from '../components/OderForm';
 import { getOrders, cancelOrder, getProducts } from '../services/api';
 import Navbar from '../components/Navbar';
 
@@ -36,7 +36,7 @@ const Orders = () => {
   const handleView = (id) => navigate(`/orders/${id}`);
 
   return (
-    <div>
+    <div className="min-h-screen p-6">
       <Navbar />
       <h1>Pedidos</h1>
       <button onClick={() => setShowForm(true)}>Nuevo Pedido</button>

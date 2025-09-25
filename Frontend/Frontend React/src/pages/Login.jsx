@@ -10,13 +10,17 @@ const Login = () => {
     try {
       const res = await loginUser(data);
       localStorage.setItem('token', res.data.token);
-      navigate('/products');
+      navigate('/dashboard');
     } catch (err) {
       alert('Error en login');
     }
   };
 
-  return <AuthForm onSubmit={handleLogin} isRegister={false} />;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <AuthForm onSubmit={handleLogin} isRegister={false} />
+    </div>
+  );
 };
 
 export default Login;

@@ -30,7 +30,7 @@ const Products = () => {
   const handleEdit = (id) => navigate(`/products/${id}`);
 
   return (
-    <div>
+    <div className="min-h-screen p-6">
       <Navbar />
       <h1>Productos</h1>
       <button onClick={() => setShowForm(true)}>Nuevo Producto</button>
