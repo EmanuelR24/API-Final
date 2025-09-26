@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderTable from '../components/OrderTable';
 import OrderForm from '../components/OderForm';
-import { getOrders, cancelOrder, getProducts } from '../services/api';
+import { getOrders, cancelOrder, createOrder,getProducts } from '../services/api';
 import Navbar from '../components/Navbar';
 
 const Orders = () => {
@@ -25,6 +25,7 @@ const Orders = () => {
     } catch (err) {
       alert('Error: Stock insuficiente o otro problema');
     }
+    console.log('Creando pedido:', data);
   };
 
   const handleCancel = async (id) => {

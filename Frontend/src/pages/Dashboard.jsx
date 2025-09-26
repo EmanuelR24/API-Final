@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getProducts, getOrders } from '../services/api';
 import Navbar from '../components/Navbar';
 
@@ -34,7 +34,7 @@ const Dashboard = () => {
       .catch(() => navigate('/login'));
   }, []);
 
-  return (
+return (
     <div>
       <header>
         <Navbar />
@@ -44,18 +44,22 @@ const Dashboard = () => {
         <section className="mt-4 space-y-4">
           <h2 className="text-soft-white">Resumen General</h2>
           <ul className="grid grid-cols-2 gap-4">
-            <li className="bg-dark-bg p-4 rounded-xl border border-light-gray transition-all duration-300 hover:bg-opacity-80">Total Productos: {stats.totalProducts}</li>
-            <li className="bg-dark-bg p-4 rounded-xl border border-light-gray transition-all duration-300 hover:bg-opacity-80">Productos con Stock Bajo: {stats.lowStockProducts}</li>
-            <li className="bg-dark-bg p-4 rounded-xl border border-light-gray transition-all duration-300 hover:bg-opacity-80">Total Pedidos: {stats.totalOrders}</li>
-            <li className="bg-dark-bg p-4 rounded-xl border border-light-gray transition-all duration-300 hover:bg-opacity-80">Pedidos Activos: {stats.activeOrders}</li>
-            <li className="bg-dark-bg p-4 rounded-xl border border-light-gray transition-all duration-300 hover:bg-opacity-80">Ventas Totales (Activas): {stats.totalSales}</li>
+            {/* ... li items igual */}
           </ul>
         </section>
         <section className="mt-6">
           <h2 className="text-soft-white">Acciones Rápidas</h2>
           <ul className="mt-2 space-y-2">
-            <li><a href="/products" className="text-purple-accent hover:text-light-gray transition-all duration-300">Gestionar Productos</a></li>
-            <li><a href="/orders" className="text-purple-accent hover:text-light-gray transition-all duration-300">Gestionar Pedidos</a></li>
+            <li>
+              <Link to="/products" className="text-purple-accent hover:text-light-gray transition-all duration-300">
+                Gestionar Productos
+              </Link>
+            </li>
+            <li>
+              <Link to="/orders" className="text-purple-accent hover:text-light-gray transition-all duration-300">
+                Gestionar Pedidos
+              </Link>
+            </li>
           </ul>
         </section>
       </main>

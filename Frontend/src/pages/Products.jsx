@@ -14,14 +14,16 @@ const Products = () => {
     getProducts().then(res => setProducts(res.data)).catch(() => navigate('/login'));
   }, []);
 
+  
+
   const handleCreate = async (data) => {
+    console.log('Creando producto con data:', data);
     await createProduct(data);
     setShowForm(false);
-    // Refresh list
     const res = await getProducts();
+    console.log('Lista actualizada:', res.data); // Debug: verifica si el nuevo producto tiene campos
     setProducts(res.data);
   };
-
   const handleDelete = async (id) => {
     await deleteProduct(id);
     setProducts(products.filter(p => p._id !== id));

@@ -13,9 +13,9 @@ const ProductTable = ({ products, onEdit, onDelete }) => (
     <tbody>
       {products.map((p) => (
         <tr key={p._id} className="hover:bg-opacity-50 transition-all duration-300">
-          <td className="p-2">{p.nombre}</td>
-          <td className="p-2">{p.precio}</td>
-          <td className="p-2">{p.stock}</td>
+          <td className="p-2 text-soft-white">{p.nombre || 'N/A'}</td> {/* Agrega text-soft-white y default N/A si undefined */}
+          <td className="p-2 text-soft-white">{p.precio || 0}</td>
+          <td className="p-2 text-soft-white">{p.stock || 0}</td>
           <td className="p-2">
             <button onClick={() => onEdit(p._id)} className="bg-purple-accent text-soft-white p-1 rounded-xl hover:bg-opacity-80 transition-all duration-300">Editar</button>
             <button onClick={() => onDelete(p._id)} className="bg-purple-accent text-soft-white p-1 rounded-xl hover:bg-opacity-80 transition-all duration-300 ml-2">Eliminar</button>

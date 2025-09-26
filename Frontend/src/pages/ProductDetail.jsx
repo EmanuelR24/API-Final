@@ -21,11 +21,11 @@ const ProductDetail = () => {
   if (!product) return <div>Cargando...</div>;
 
   return (
-    <div className="min-h-screen p-6">
+    <>
       <Navbar />
-      <h1>Editar Producto</h1>
-      <ProductForm onSubmit={handleUpdate} initialData={product} />
-    </div>
+      <h1 className="text-2xl text-soft-white p-6">Editar Producto</h1> // Agrega clases
+      <ProductForm initialData={product} onSubmit={handleUpdate} /> // Corrige a initialData
+    </>
   );
 };
 

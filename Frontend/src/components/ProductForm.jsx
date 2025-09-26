@@ -14,10 +14,18 @@ const ProductForm = ({ onSubmit, initialData = {} }) => {
     setFormData(initialData);
   }, [initialData]);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let newValue = value;
+    if (name === 'precio' || name === 'stock') {
+      newValue = value === '' ? 0 : Number(value); // Parsea a número, default 0 si vacío
+    }
+    setFormData({ ...formData, [name]: newValue });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('Datos enviados al crear/actualizar:', formData); // Debug: mira en consola qué se envía
     onSubmit(formData);
   };
 
