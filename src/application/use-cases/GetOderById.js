@@ -18,7 +18,7 @@ export default class GetOrderById {
     this.orderDetailRepository = orderDetailRepository;
   }
 
-  async execute(id) {
+async execute(id) {
     const order = await this.orderRepository.findById(id);
     if (!order) throw new Error("Pedido no encontrado");
 
