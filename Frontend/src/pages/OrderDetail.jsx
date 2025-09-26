@@ -12,15 +12,19 @@ const OrderDetail = () => {
   useEffect(() => {
     Promise.all([getOrderById(id), getProducts()])
       .then(([orderRes, productsRes]) => {
-        setOrder(orderRes.data);
-        setProducts(productsRes.data);
+        const orderData = orderRes.data;
+        const productsData = productsRes.data;
+        console.log('Order data:', orderData); // Debug: verifica estructura de order
+        console.log('Products data:', productsData); // Debug: verifica lista de productos
+        setOrder(orderData);
+        setProducts(productsData);
       })
       .catch(() => navigate('/orders'));
   }, [id]);
 
-  if (!order) return <p>Cargando...</p>;
+  if (!order) return <p className="text-soft-white p-6">Cargando...</p>;
 
-return (
+  return (
     <div className="min-h-screen">
       <header>
         <Navbar />
@@ -45,14 +49,24 @@ return (
               </tr>
             </thead>
             <tbody>
-              {(order?.details || []).map(d => (
-                <tr key={d._id} className="hover:bg-opacity-50 transition-all duration-300">
-                  <td className="p-2 text-soft-white">{products.find(p => p._id === d.productoId)?.nombre || d.productoId}</td>
-                  <td className="p-2 text-soft-white">{d.cantidad}</td>
-                  <td className="p-2 text-soft-white">{d.precioUnitario}</td>
-                  <td className="p-2 text-soft-white">{d.subtotal}</td>
+              {order.details && order.details.length > 0 ? (
+                order.details.map(d => {
+                  const productName = products.find(p => p._id === d.productoId)?.nombre || 'Producto no encontrado';
+                  console.log('Detalle mapeado:', d, 'Producto encontrado:', productName); // Debug por fila
+                  return (
+                    <tr key={d._id} className="hover:bg-opacity-50 transition-all duration-300">
+                      <td className="p-2 text-soft-white">{productName}</td>
+                      <td className="p-2 text-soft-white">{d.cantidad}</td>
+                      <td className="p-2 text-soft-white">{d.precioUnitario}</td>
+                      <td className="p-2 text-soft-white">{d.subtotal}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="4" className="p-2 text-soft-white text-center">No hay detalles disponibles</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </section>
