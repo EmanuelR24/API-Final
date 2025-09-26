@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState } from 'react'; // Quita useEffect
 const ProductForm = ({ onSubmit, initialData = {} }) => {
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
-    precio: 0,
-    stock: 0,
+    precio: '',
+    stock: '',
     categoria: '',
     ...initialData
   });
-
-  useEffect(() => {
-    setFormData(initialData);
-  }, [initialData]);
-
+  // Quita el useEffect entero
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = value;
     if (name === 'precio' || name === 'stock') {
-      newValue = value === '' ? 0 : Number(value); // Parsea a número, default 0 si vacío
+      newValue = value === '' ? '' : Number(value); // Permite vacío temporal, pero envía número
     }
     setFormData({ ...formData, [name]: newValue });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos enviados al crear/actualizar:', formData); // Debug: mira en consola qué se envía
-    onSubmit(formData);
+    // Asegúrate de que números sean números antes de enviar
+    const submitData = {
+      ...formData,
+      precio: Number(formData.precio) || 0,
+      stock: Number(formData.stock) || 0,
+    };
+    console.log('Datos enviados al crear/actualizar:', submitData); // Debug actualizado
+    onSubmit(submitData);
   };
 
   return (
@@ -36,8 +37,7 @@ const ProductForm = ({ onSubmit, initialData = {} }) => {
       <input name="precio" type="number" value={formData.precio} onChange={handleChange} placeholder="Precio" required className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
       <input name="stock" type="number" value={formData.stock} onChange={handleChange} placeholder="Stock" required className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
       <input name="categoria" value={formData.categoria} onChange={handleChange} placeholder="Categoría" className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
-      <button type="submit" className="w-full p-2 bg-purple-accent text-soft-white rounded-xl hover:bg-opacity-80 transition-all duration-300">Guardar</button>
-    </form>
+      <button type="submit" class="w-full p-2 bg-purple-accent text-soft-white rounded-xl hover:bg-opacity-80 transition-all duration-300">Guardar</button>    </form>
   );
 };
 
