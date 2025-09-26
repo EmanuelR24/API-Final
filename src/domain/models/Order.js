@@ -18,6 +18,7 @@ class Order {
     this.total = total;
     this.estado = estado;
     this.createdAt = createdAt;
+    this.details = details;
   }
 }
 
