@@ -34,29 +34,29 @@ const Dashboard = () => {
       .catch(() => navigate('/login'));
   }, []);
 
-return (
+  return (
     <div>
       <header>
         <Navbar />
       </header>
       <main className="p-6">
-        <h1 className="text-2xl text-soft-white">Dashboard</h1>
-        <section className="mt-4 space-y-4">
-          <h2 className="text-soft-white">Resumen General</h2>
+        <h1 className="text-2xl soft-white-text">Dashboard</h1>
+        <section className="mt-4 space-y-4"> {/* mt-4 no definido, puedes agregar .mt-4 { margin-top: 1rem; } en CSS si lo necesitas */}
+          <h2 className="soft-white-text">Resumen General</h2>
           <ul className="grid grid-cols-2 gap-4">
-            {/* ... li items igual */}
+            {/* Tus <li> items aquí, agrega clases como soft-white-text si necesitan */}
           </ul>
         </section>
         <section className="mt-6">
-          <h2 className="text-soft-white">Acciones Rápidas</h2>
+          <h2 className="soft-white-text">Acciones Rápidas</h2>
           <ul className="mt-2 space-y-2">
             <li>
-              <Link to="/products" className="text-purple-accent hover:text-light-gray transition-all duration-300">
+              <Link to="/products" className="text-purple-accent hover-text-light-gray transition-all">
                 Gestionar Productos
               </Link>
             </li>
             <li>
-              <Link to="/orders" className="text-purple-accent hover:text-light-gray transition-all duration-300">
+              <Link to="/orders" className="text-purple-accent hover-text-light-gray transition-all">
                 Gestionar Pedidos
               </Link>
             </li>

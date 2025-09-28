@@ -1,9 +1,9 @@
 import React from 'react';
 
 const ProductTable = ({ products, onEdit, onDelete }) => (
-  <table className="w-full bg-dark-bg rounded-xl overflow-hidden">
+  <table className="w-full dark-bg rounded-xl overflow-hidden">
     <thead>
-      <tr className="bg-purple-accent text-soft-white">
+      <tr className="purple-accent-bg soft-white-text">
         <th className="p-2">Nombre</th>
         <th className="p-2">Precio</th>
         <th className="p-2">Stock</th>
@@ -12,13 +12,13 @@ const ProductTable = ({ products, onEdit, onDelete }) => (
     </thead>
     <tbody>
       {products.map((p) => (
-        <tr key={p._id} className="hover:bg-opacity-50 transition-all duration-300">
-          <td className="p-2 text-soft-white">{p.nombre || 'N/A'}</td> {/* Agrega text-soft-white y default N/A si undefined */}
-          <td className="p-2 text-soft-white">{p.precio || 0}</td>
-          <td className="p-2 text-soft-white">{p.stock || 0}</td>
+        <tr key={p._id} className="hover-bg-opacity-50 transition-all">
+          <td className="p-2 soft-white-text">{p.nombre || 'N/A'}</td>
+          <td className="p-2 soft-white-text">{p.precio || 0}</td>
+          <td className="p-2 soft-white-text">{p.stock || 0}</td>
           <td className="p-2">
-            <button onClick={() => onEdit(p._id)} className="bg-purple-accent text-soft-white p-1 rounded-xl hover:bg-opacity-80 transition-all duration-300">Editar</button>
-            <button onClick={() => onDelete(p._id)} className="bg-purple-accent text-soft-white p-1 rounded-xl hover:bg-opacity-80 transition-all duration-300 ml-2">Eliminar</button>
+            <button onClick={() => onEdit(p._id)} className="purple-accent-bg soft-white-text p-1 rounded-xl hover-opacity-80 transition-all">Editar</button>
+            <button onClick={() => onDelete(p._id)} className="purple-accent-bg soft-white-text p-1 rounded-xl hover-opacity-80 transition-all ml-2">Eliminar</button>
           </td>
         </tr>
       ))}

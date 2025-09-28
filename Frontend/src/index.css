@@ -1,1 +1,172 @@
-@import "tailwindcss";
+/* Variables para colores y temas (equivalente a Tailwind config) */
+:root {
+  --dark-bg: #1a1a1a; /* Fondo oscuro */
+  --soft-white: #f0f0f0; /* Texto blanco suave */
+  --purple-accent: #6b21a8; /* Morado acento */
+  --light-gray: #d1d5db; /* Gris claro para bordes */
+  --hover-opacity: 0.8; /* Opacidad en hover */
+}
+
+/* Estilos base */
+body {
+  background-color: var(--dark-bg);
+  color: var(--soft-white);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Clases reutilizables (reemplazan Tailwind) */
+.dark-bg {
+  background-color: var(--dark-bg);
+}
+
+.purple-accent-bg {
+  background-color: var(--purple-accent);
+}
+
+.soft-white-text {
+  color: var(--soft-white);
+}
+
+.light-gray-border {
+  border: 1px solid var(--light-gray);
+}
+
+.p-2 {
+  padding: 0.5rem; /* Equivalente a p-2 en Tailwind */
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem; /* xl en Tailwind */
+}
+
+.max-w-md {
+  max-width: 28rem; /* md en Tailwind */
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem; /* space-y-4 */
+}
+
+.space-x-6 > * + * {
+  margin-left: 1.5rem; /* space-x-6 */
+}
+
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.hover-opacity-80:hover {
+  opacity: var(--hover-opacity);
+}
+
+.hover-bg-opacity-50:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Ajusta según tu tema */
+}
+
+.hover-text-light-gray:hover {
+  color: var(--light-gray);
+}
+
+/* Estilos para tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+thead tr {
+  background-color: var(--purple-accent);
+  color: var(--soft-white);
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Botones */
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* Inputs y selects */
+input, select {
+  background-color: var(--dark-bg);
+  color: var(--soft-white);
+  border: 1px solid var(--light-gray);
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  width: 100%;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--purple-accent);
+}

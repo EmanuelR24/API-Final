@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderTable from '../components/OrderTable';
 import OrderForm from '../components/OderForm';
-import { getOrders, cancelOrder, createOrder,getProducts } from '../services/api';
+import { getOrders, cancelOrder, createOrder, getProducts } from '../services/api';
 import Navbar from '../components/Navbar';
 
 const Orders = () => {
@@ -39,8 +39,8 @@ const Orders = () => {
   return (
     <div className="min-h-screen p-6">
       <Navbar />
-      <h1>Pedidos</h1>
-      <button onClick={() => setShowForm(true)}>Nuevo Pedido</button>
+      <h1 className="soft-white-text">Pedidos</h1> {/* Agregué clase para color */}
+      <button onClick={() => setShowForm(true)} className="purple-accent-bg soft-white-text p-2 rounded-xl hover-opacity-80 transition-all">Nuevo Pedido</button>
       {showForm && <OrderForm products={products} onSubmit={handleCreate} />}
       <OrderTable orders={orders} onView={handleView} onCancel={handleCancel} />
     </div>

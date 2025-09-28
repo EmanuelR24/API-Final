@@ -25,21 +25,21 @@ const OrderForm = ({ products, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-dark-bg p-6 rounded-xl max-w-md mx-auto space-y-4">
+    <form onSubmit={handleSubmit} className="dark-bg p-6 rounded-xl max-w-md mx-auto space-y-4">
       <section>
-        <h2 className="text-soft-white">Agregar Item</h2>
-        <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white">
+        <h2 className="soft-white-text">Agregar Item</h2>
+        <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text">
           <option value="">Selecciona Producto</option>
           {products.map(p => <option key={p._id} value={p._id}>{p.nombre} (Stock: {p.stock})</option>)}
         </select>
-        <input type="number" value={cantidad} onChange={(e) => setCantidad(parseInt(e.target.value))} min="1" className="w-full p-2 rounded-xl border border-light-gray bg-dark-bg text-soft-white" />
-        <button type="button" onClick={addItem} className="w-full p-2 bg-purple-accent text-soft-white rounded-xl hover:bg-opacity-80 transition-all duration-300">Agregar Item</button>
+        <input type="number" value={cantidad} onChange={(e) => setCantidad(parseInt(e.target.value))} min="1" className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
+        <button type="button" onClick={addItem} className="w-full p-2 purple-accent-bg soft-white-text rounded-xl hover-opacity-80 transition-all">Agregar Item</button>
       </section>
       <section>
-        <h2 className="text-soft-white">Items Agregados</h2>
-        <table className="w-full bg-dark-bg rounded-xl overflow-hidden">
+        <h2 className="soft-white-text">Items Agregados</h2>
+        <table className="w-full dark-bg rounded-xl overflow-hidden">
           <thead>
-            <tr className="bg-purple-accent text-soft-white">
+            <tr className="purple-accent-bg soft-white-text">
               <th className="p-2">Producto</th>
               <th className="p-2">Cantidad</th>
               <th className="p-2">Acción</th>
@@ -47,16 +47,16 @@ const OrderForm = ({ products, onSubmit }) => {
           </thead>
           <tbody>
             {details.map((d, index) => (
-              <tr key={index} className="hover:bg-opacity-50 transition-all duration-300">
+              <tr key={index} className="hover-bg-opacity-50 transition-all">
                 <td className="p-2">{products.find(p => p._id === d.productoId)?.nombre}</td>
                 <td className="p-2">{d.cantidad}</td>
-                <td className="p-2"><button type="button" onClick={() => removeItem(index)} className="bg-purple-accent text-soft-white p-1 rounded-xl hover:bg-opacity-80 transition-all duration-300">Eliminar</button></td>
+                <td className="p-2"><button type="button" onClick={() => removeItem(index)} className="purple-accent-bg soft-white-text p-1 rounded-xl hover-opacity-80 transition-all">Eliminar</button></td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
-      <button type="submit" className="w-full p-2 bg-purple-accent text-soft-white rounded-xl hover:bg-opacity-80 transition-all duration-300">Crear Pedido</button>
+      <button type="submit" className="w-full p-2 purple-accent-bg soft-white-text rounded-xl hover-opacity-80 transition-all">Crear Pedido</button>
     </form>
   );
 };
