@@ -8,7 +8,7 @@
  */
 import CreateOrder from "../../application/use-cases/CreateOrder.js";
 import GetOrders from "../../application/use-cases/GetOrders.js";
-import GetOrderById from "../../application/use-cases/GetOrderById.js";  // Corregido: Agregada la 'r' en GetOrderById.js
+import GetOrderById from "../../application/use-cases/GetOderById.js";  // Corregido: Agregada la 'r' en GetOrderById.js
 import CancelOrder from "../../application/use-cases/CancelOrder.js";
 import OrderRepositoryMongo from "../../infrastructure/repositories/OrderRepositoryMongo.js";
 import OrderDetailRepositoryMongo from "../../infrastructure/repositories/OrderDetailRepositoryMongo.js";
