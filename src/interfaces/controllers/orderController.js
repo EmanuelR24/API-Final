@@ -8,7 +8,7 @@
  */
 import CreateOrder from "../../application/use-cases/CreateOrder.js";
 import GetOrders from "../../application/use-cases/GetOrders.js";
-import GetOrderById from "../../application/use-cases/GetOderById.js";
+import GetOrderById from "../../application/use-cases/GetOrderById.js";  // Corregido: Agregada la 'r' en GetOrderById.js
 import CancelOrder from "../../application/use-cases/CancelOrder.js";
 import OrderRepositoryMongo from "../../infrastructure/repositories/OrderRepositoryMongo.js";
 import OrderDetailRepositoryMongo from "../../infrastructure/repositories/OrderDetailRepositoryMongo.js";
@@ -43,8 +43,9 @@ export const getOrderById = async (req, res) => {
     const getOrderByIdUseCase = new GetOrderById(orderRepository, orderDetailRepository);
     const order = await getOrderByIdUseCase.execute(req.params.id);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    res.json(order);
+    res.json(order);  // Ahora debería incluir order.details si existen en la DB
   } catch (err) {
+    console.error('Error en getOrderById:', err);  // Agregado: Log para depuración
     res.status(500).json({ error: err.message });
   }
 };

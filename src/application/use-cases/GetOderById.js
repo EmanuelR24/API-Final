@@ -22,6 +22,7 @@ export default class GetOrderById {
     const order = await this.orderRepository.findById(id);
     if (!order) return null;
     order.details = await this.orderDetailRepository.findByPedidoId(id);
+    console.log('Detalles encontrados para pedido', id, ':', details);
     return order;
   }
 }
