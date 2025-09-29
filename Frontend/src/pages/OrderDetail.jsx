@@ -12,6 +12,8 @@ const OrderDetail = () => {
   useEffect(() => {
     Promise.all([getOrderById(id), getProducts()])
       .then(([orderRes, productsRes]) => {
+        console.log('Datos del pedido crudos:', orderRes.data); 
+      console.log('Lista de productos:', productsRes.data);
         setOrder(orderRes.data);
         setProducts(productsRes.data);
       })
@@ -48,6 +50,7 @@ const OrderDetail = () => {
               {order.details && order.details.length > 0 ? (
                 order.details.map(d => {
                   const productName = products.find(p => p._id === d.productoId)?.nombre || 'Producto no encontrado';
+                  console.log('Detalle procesado:', d, 'Nombre encontrado:', productName);
                   return (
                     <tr key={d._id}>
                       <td>{productName}</td>
