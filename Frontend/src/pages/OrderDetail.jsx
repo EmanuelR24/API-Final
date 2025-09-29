@@ -49,7 +49,8 @@ const OrderDetail = () => {
             <tbody>
               {order.details && order.details.length > 0 ? (
                 order.details.map(d => {
-                  const productName = products.find(p => p._id === d.productoId)?.nombre || 'Producto no encontrado';
+                  // Asegura que ambos sean string para comparar
+                  const productName = products.find(p => String(p._id) === String(d.productoId))?.nombre || 'Producto no encontrado';
                   console.log('Detalle procesado:', d, 'Nombre encontrado:', productName);
                   return (
                     <tr key={d._id}>
