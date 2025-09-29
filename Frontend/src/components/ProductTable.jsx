@@ -14,7 +14,7 @@ const ProductTable = ({ products, onEdit, onDelete }) => (
       {products.map((p) => (
         <tr key={p._id}>
           <td>{p.nombre || 'N/A'}</td>
-          <td>{p.precio || 0}</td>
+          <td>${p.precio || 0}</td>
           <td>{p.stock || 0}</td>
           <td>
             <button onClick={() => onEdit(p._id)} className="button-secondary">Editar</button>

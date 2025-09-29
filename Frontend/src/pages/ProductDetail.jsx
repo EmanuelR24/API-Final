@@ -25,6 +25,7 @@ const ProductDetail = () => {
       <Navbar />
       <h1 className="title">Editar Producto</h1>
       <ProductForm initialData={product} onSubmit={handleUpdate} />
+      <p>Precio: ${product.precio}</p>
     </div>
   );
 };

@@ -62,21 +62,9 @@ const Dashboard = () => {
             </div>
             <div className="card">
               <p>Ventas Totales</p>
-              <h3>{stats.totalSales}</h3>
+              <h3>${stats.totalSales}</h3>
             </div>
           </div>
-        </section>
-        <section>
-          <h2>Usuarios</h2>
-          {/* Aquí iría la lista de usuarios */}
-        </section>
-        <section>
-          <h2>Productos</h2>
-          {/* Aquí iría la lista de productos */}
-        </section>
-        <section>
-          <h2>Pedidos</h2>
-          {/* Aquí iría la lista de pedidos */}
         </section>
       </main>
     </div>

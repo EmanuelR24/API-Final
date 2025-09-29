@@ -31,7 +31,7 @@ const OrderDetail = () => {
         <h1 className="title">Detalle de Pedido {order._id}</h1>
         <section className="detail-section">
           <p>Usuario ID: {order.usuarioId}</p>
-          <p>Total: {order.total}</p>
+          <p>Total: ${order.total}</p>
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </section>
