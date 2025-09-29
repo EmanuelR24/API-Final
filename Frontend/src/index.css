@@ -1,172 +1,237 @@
-/* Variables para colores y temas (equivalente a Tailwind config) */
+/* Variables para colores y temas */
 :root {
-  --dark-bg: #1a1a1a; /* Fondo oscuro */
-  --soft-white: #f0f0f0; /* Texto blanco suave */
-  --purple-accent: #6b21a8; /* Morado acento */
-  --light-gray: #d1d5db; /* Gris claro para bordes */
-  --hover-opacity: 0.8; /* Opacidad en hover */
+  --dark-bg: #121212; /* Fondo oscuro suave */
+  --soft-white: #e5e5e5; /* Texto blanco suave */
+  --purple-accent: #7c3aed; /* Morado acento más suave */
+  --light-gray: #9ca3af; /* Gris claro para bordes */
+  --hover-opacity: 0.9; /* Opacidad en hover menos agresiva */
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  --secondary-bg: #1f1f1f; /* Fondo secundario para cards y inputs */
 }
 
 /* Estilos base */
 body {
   background-color: var(--dark-bg);
   color: var(--soft-white);
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif; /* Fuente más moderna */
   margin: 0;
   padding: 0;
+  line-height: 1.6;
 }
 
-/* Clases reutilizables (reemplazan Tailwind) */
-.dark-bg {
-  background-color: var(--dark-bg);
-}
-
-.purple-accent-bg {
-  background-color: var(--purple-accent);
-}
-
-.soft-white-text {
-  color: var(--soft-white);
-}
-
-.light-gray-border {
-  border: 1px solid var(--light-gray);
-}
-
-.p-2 {
-  padding: 0.5rem; /* Equivalente a p-2 en Tailwind */
-}
-
-.p-4 {
-  padding: 1rem;
-}
-
-.p-6 {
+/* Clases semánticas */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 1.5rem;
 }
 
-.rounded-xl {
-  border-radius: 0.75rem; /* xl en Tailwind */
-}
-
-.max-w-md {
-  max-width: 28rem; /* md en Tailwind */
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.space-y-4 > * + * {
-  margin-top: 1rem; /* space-y-4 */
-}
-
-.space-x-6 > * + * {
-  margin-left: 1.5rem; /* space-x-6 */
-}
-
-.space-y-2 > * + * {
-  margin-top: 0.5rem;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.flex {
+.form {
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+  max-width: 28rem;
+  margin: 0 auto;
   display: flex;
-}
-
-.grid {
-  display: grid;
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.gap-4 {
+  flex-direction: column;
   gap: 1rem;
 }
 
-.min-h-screen {
-  min-height: 100vh;
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.items-center {
-  align-items: center;
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--light-gray);
+  background-color: var(--secondary-bg);
+  color: var(--soft-white);
+  transition: border-color 0.3s;
 }
 
-.justify-center {
-  justify-content: center;
+.form-input:focus {
+  border-color: var(--purple-accent);
+  outline: none;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
+.button-primary {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--purple-accent);
+  color: var(--soft-white);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+  font-weight: 600;
 }
 
-.text-xl {
-  font-size: 1.25rem;
+.button-primary:hover {
+  opacity: var(--hover-opacity);
+  transform: translateY(-2px);
 }
 
-.overflow-hidden {
-  overflow: hidden;
+.button-secondary {
+  padding: 0.5rem 1rem;
+  background-color: var(--purple-accent);
+  color: var(--soft-white);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  margin-left: 0.5rem;
 }
 
-.transition-all {
-  transition: all 0.3s ease;
-}
-
-.hover-opacity-80:hover {
+.button-secondary:hover {
   opacity: var(--hover-opacity);
 }
 
-.hover-bg-opacity-50:hover {
-  background-color: rgba(0, 0, 0, 0.5); /* Ajusta según tu tema */
-}
-
-.hover-text-light-gray:hover {
-  color: var(--light-gray);
-}
-
-/* Estilos para tablas */
-table {
+.table {
   width: 100%;
+  background-color: var(--secondary-bg);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
   border-collapse: collapse;
 }
 
-th, td {
-  padding: 0.5rem;
+.table th,
+.table td {
+  padding: 1rem;
   text-align: left;
 }
 
-thead tr {
+.table th {
   background-color: var(--purple-accent);
   color: var(--soft-white);
+  font-weight: 600;
 }
 
-tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Botones */
-button {
-  cursor: pointer;
-  border: none;
-}
-
-/* Inputs y selects */
-input, select {
-  background-color: var(--dark-bg);
+.table td {
   color: var(--soft-white);
-  border: 1px solid var(--light-gray);
-  padding: 0.5rem;
-  border-radius: 0.75rem;
-  width: 100%;
+  border-top: 1px solid var(--light-gray);
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: var(--purple-accent);
+.table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.navbar {
+  background-color: var(--purple-accent);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--soft-white);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--light-gray);
+}
+
+.button-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.card {
+  background-color: var(--secondary-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.card p {
+  margin: 0;
+  color: var(--light-gray);
+}
+
+.card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  color: var(--soft-white);
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--soft-white);
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--soft-white);
+  margin-bottom: 1rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard-section {
+  margin-top: 2rem;
+}
+
+.action-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.action-link {
+  color: var(--purple-accent);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.action-link:hover {
+  color: var(--light-gray);
+}
+
+.full-screen-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-section {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loading-text {
+  color: var(--soft-white);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
 }

@@ -35,28 +35,47 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <header>
         <Navbar />
       </header>
-      <main className="p-6">
-        <h1 className="text-2xl soft-white-text">Dashboard</h1>
-        <section className="mt-4 space-y-4"> {/* mt-4 no definido, puedes agregar .mt-4 { margin-top: 1rem; } en CSS si lo necesitas */}
-          <h2 className="soft-white-text">Resumen General</h2>
-          <ul className="grid grid-cols-2 gap-4">
-            {/* Tus <li> items aquí, agrega clases como soft-white-text si necesitan */}
-          </ul>
+      <main>
+        <h1 className="title">Dashboard</h1>
+        <section className="dashboard-section">
+          <h2 className="subtitle">Resumen General</h2>
+          <div className="grid-container">
+            <div className="card">
+              <p>Total Productos</p>
+              <h3>{stats.totalProducts}</h3>
+            </div>
+            <div className="card">
+              <p>Productos Bajos en Stock</p>
+              <h3>{stats.lowStockProducts}</h3>
+            </div>
+            <div className="card">
+              <p>Total Pedidos</p>
+              <h3>{stats.totalOrders}</h3>
+            </div>
+            <div className="card">
+              <p>Pedidos Activos</p>
+              <h3>{stats.activeOrders}</h3>
+            </div>
+            <div className="card">
+              <p>Ventas Totales</p>
+              <h3>{stats.totalSales}</h3>
+            </div>
+          </div>
         </section>
-        <section className="mt-6">
-          <h2 className="soft-white-text">Acciones Rápidas</h2>
-          <ul className="mt-2 space-y-2">
+        <section className="dashboard-section">
+          <h2 className="subtitle">Acciones Rápidas</h2>
+          <ul className="action-list">
             <li>
-              <Link to="/products" className="text-purple-accent hover-text-light-gray transition-all">
+              <Link to="/products" className="action-link">
                 Gestionar Productos
               </Link>
             </li>
             <li>
-              <Link to="/orders" className="text-purple-accent hover-text-light-gray transition-all">
+              <Link to="/orders" className="action-link">
                 Gestionar Pedidos
               </Link>
             </li>

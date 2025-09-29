@@ -26,18 +26,17 @@ const ProductForm = ({ onSubmit, initialData = {} }) => {
       precio: Number(formData.precio) || 0,
       stock: Number(formData.stock) || 0,
     };
-    console.log('Datos enviados al crear/actualizar:', submitData);
     onSubmit(submitData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="dark-bg p-6 rounded-xl max-w-md mx-auto space-y-4">
-      <input name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" required className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
-      <input name="descripcion" value={formData.descripcion} onChange={handleChange} placeholder="Descripción" className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
-      <input name="precio" type="number" value={formData.precio} onChange={handleChange} placeholder="Precio" required className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
-      <input name="stock" type="number" value={formData.stock} onChange={handleChange} placeholder="Stock" required className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
-      <input name="categoria" value={formData.categoria} onChange={handleChange} placeholder="Categoría" className="w-full p-2 rounded-xl light-gray-border dark-bg soft-white-text" />
-      <button type="submit" className="w-full p-2 purple-accent-bg soft-white-text rounded-xl hover-opacity-80 transition-all">Guardar</button>
+    <form onSubmit={handleSubmit} className="form">
+      <input name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" required className="form-input" />
+      <input name="descripcion" value={formData.descripcion} onChange={handleChange} placeholder="Descripción" className="form-input" />
+      <input name="precio" type="number" value={formData.precio} onChange={handleChange} placeholder="Precio" required className="form-input" />
+      <input name="stock" type="number" value={formData.stock} onChange={handleChange} placeholder="Stock" required className="form-input" />
+      <input name="categoria" value={formData.categoria} onChange={handleChange} placeholder="Categoría" className="form-input" />
+      <button type="submit" className="button-primary">Guardar</button>
     </form>
   );
 };

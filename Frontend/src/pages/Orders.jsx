@@ -25,7 +25,6 @@ const Orders = () => {
     } catch (err) {
       alert('Error: Stock insuficiente o otro problema');
     }
-    console.log('Creando pedido:', data);
   };
 
   const handleCancel = async (id) => {
@@ -37,10 +36,10 @@ const Orders = () => {
   const handleView = (id) => navigate(`/orders/${id}`);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="container">
       <Navbar />
-      <h1 className="soft-white-text">Pedidos</h1> {/* Agregué clase para color */}
-      <button onClick={() => setShowForm(true)} className="purple-accent-bg soft-white-text p-2 rounded-xl hover-opacity-80 transition-all">Nuevo Pedido</button>
+      <h1 className="title">Pedidos</h1>
+      <button onClick={() => setShowForm(true)} className="button-primary">Nuevo Pedido</button>
       {showForm && <OrderForm products={products} onSubmit={handleCreate} />}
       <OrderTable orders={orders} onView={handleView} onCancel={handleCancel} />
     </div>

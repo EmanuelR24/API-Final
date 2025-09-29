@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 import { registerUser } from '../services/api';
-import Navbar from '../components/Navbar'; // Asumiendo que quieres Navbar aquí
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,11 +16,8 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen p-6">
-      <header><Navbar /></header>
-      <main>
-        <AuthForm onSubmit={handleRegister} isRegister={true} />
-      </main>
+    <div className="full-screen-center">
+      <AuthForm onSubmit={handleRegister} isRegister={true} />
     </div>
   );
 };

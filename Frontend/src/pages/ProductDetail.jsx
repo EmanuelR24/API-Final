@@ -18,14 +18,14 @@ const ProductDetail = () => {
     navigate('/products');
   };
 
-  if (!product) return <div className="soft-white-text">Cargando...</div>;
+  if (!product) return <div className="loading-text">Cargando...</div>;
 
   return (
-    <>
+    <div className="container">
       <Navbar />
-      <h1 className="text-2xl soft-white-text p-6">Editar Producto</h1>
+      <h1 className="title">Editar Producto</h1>
       <ProductForm initialData={product} onSubmit={handleUpdate} />
-    </>
+    </div>
   );
 };
 

@@ -12,59 +12,54 @@ const OrderDetail = () => {
   useEffect(() => {
     Promise.all([getOrderById(id), getProducts()])
       .then(([orderRes, productsRes]) => {
-        const orderData = orderRes.data;
-        const productsData = productsRes.data;
-        console.log('Order data:', orderData);
-        console.log('Products data:', productsData);
-        setOrder(orderData);
-        setProducts(productsData);
+        setOrder(orderRes.data);
+        setProducts(productsRes.data);
       })
       .catch(() => navigate('/orders'));
   }, [id]);
 
-  if (!order) return <p className="soft-white-text p-6">Cargando...</p>;
+  if (!order) return <p className="loading-text">Cargando...</p>;
 
   return (
-    <div className="min-h-screen">
+    <div className="container">
       <header>
         <Navbar />
       </header>
-      <main className="p-6">
-        <h1 className="text-2xl soft-white-text">Detalle de Pedido {order._id}</h1>
-        <section className="mt-4 space-y-2">
-          <p className="soft-white-text">Usuario ID: {order.usuarioId}</p>
-          <p className="soft-white-text">Total: {order.total}</p>
-          <p className="soft-white-text">Estado: {order.estado}</p>
-          <p className="soft-white-text">Fecha: {new Date(order.createdAt).toLocaleString()}</p>
+      <main>
+        <h1 className="title">Detalle de Pedido {order._id}</h1>
+        <section className="detail-section">
+          <p>Usuario ID: {order.usuarioId}</p>
+          <p>Total: {order.total}</p>
+          <p>Estado: {order.estado}</p>
+          <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </section>
-        <section className="mt-6">
-          <h2 className="text-xl soft-white-text">Detalles</h2>
-          <table className="w-full dark-bg rounded-xl overflow-hidden mt-2">
+        <section className="detail-section">
+          <h2 className="subtitle">Detalles</h2>
+          <table className="table">
             <thead>
-              <tr className="purple-accent-bg soft-white-text">
-                <th className="p-2">Producto</th>
-                <th className="p-2">Cantidad</th>
-                <th className="p-2">Precio Unitario</th>
-                <th className="p-2">Subtotal</th>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
               </tr>
             </thead>
             <tbody>
               {order.details && order.details.length > 0 ? (
                 order.details.map(d => {
                   const productName = products.find(p => p._id === d.productoId)?.nombre || 'Producto no encontrado';
-                  console.log('Detalle mapeado:', d, 'Producto encontrado:', productName);
                   return (
-                    <tr key={d._id} className="hover-bg-opacity-50 transition-all">
-                      <td className="p-2 soft-white-text">{productName}</td>
-                      <td className="p-2 soft-white-text">{d.cantidad}</td>
-                      <td className="p-2 soft-white-text">{d.precioUnitario}</td>
-                      <td className="p-2 soft-white-text">{d.subtotal}</td>
+                    <tr key={d._id}>
+                      <td>{productName}</td>
+                      <td>{d.cantidad}</td>
+                      <td>{d.precioUnitario}</td>
+                      <td>{d.subtotal}</td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
-                  <td colSpan="4" className="p-2 soft-white-text text-center">No hay detalles disponibles</td>
+                  <td colSpan="4" className="text-center">No hay detalles disponibles</td>
                 </tr>
               )}
             </tbody>

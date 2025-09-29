@@ -17,7 +17,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="full-screen-center">
       <AuthForm onSubmit={handleLogin} isRegister={false} />
     </div>
   );

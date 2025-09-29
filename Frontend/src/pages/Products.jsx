@@ -15,11 +15,9 @@ const Products = () => {
   }, []);
 
   const handleCreate = async (data) => {
-    console.log('Creando producto con data:', data);
     await createProduct(data);
     setShowForm(false);
     const res = await getProducts();
-    console.log('Lista actualizada:', res.data);
     setProducts(res.data);
   };
   const handleDelete = async (id) => {
@@ -30,10 +28,10 @@ const Products = () => {
   const handleEdit = (id) => navigate(`/products/${id}`);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="container">
       <Navbar />
-      <h1 className="soft-white-text">Productos</h1>
-      <button onClick={() => setShowForm(true)} className="purple-accent-bg soft-white-text p-2 rounded-xl hover-opacity-80 transition-all">Nuevo Producto</button>
+      <h1 className="title">Productos</h1>
+      <button onClick={() => setShowForm(true)} className="button-primary">Nuevo Producto</button>
       {showForm && <ProductForm onSubmit={handleCreate} />}
       <ProductTable products={products} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
