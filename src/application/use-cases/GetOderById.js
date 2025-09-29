@@ -21,15 +21,8 @@ export default class GetOrderById {
   async execute(id) {
     const order = await this.orderRepository.findById(id);
     if (!order) return null;
-    let details = await this.orderDetailRepository.findByPedidoId(id);
-    // Serializa los detalles para asegurar que _id y productoId sean string
-    details = details.map(d => ({
-      ...d.toObject?.() || d, // Si es Mongoose Document, usa toObject
-      _id: d._id?.toString?.() || d._id,
-      productoId: d.productoId?.toString?.() || d.productoId,
-    }));
-    order.details = details;
-    console.log('Detalles encontrados para pedido', id, ':', order.details);
+    order.details = await this.orderDetailRepository.findByPedidoId(id);
+  console.log('Detalles encontrados para pedido', id, ':', order.details);
     return order;
   }
 }
