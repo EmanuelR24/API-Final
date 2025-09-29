@@ -14,7 +14,7 @@ const OrderTable = ({ orders, onView, onCancel }) => (
       {orders.map((o) => (
         <tr key={o._id}>
           <td>{o._id}</td>
-          <td>{o.total}</td>
+          <td>${o.total}</td>
           <td>{o.estado}</td>
           <td>
             <button onClick={() => onView(o._id)} className="button-secondary">Ver Detalle</button>
