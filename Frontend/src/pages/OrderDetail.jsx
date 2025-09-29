@@ -35,40 +35,6 @@ const OrderDetail = () => {
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </section>
-        <section className="detail-section">
-          <h2 className="subtitle">Detalles</h2>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {order.details && order.details.length > 0 ? (
-                order.details.map(d => {
-                  // Asegura que ambos sean string para comparar
-                  const productName = products.find(p => String(p._id) === String(d.productoId))?.nombre || 'Producto no encontrado';
-                  console.log('Detalle procesado:', d, 'Nombre encontrado:', productName);
-                  return (
-                    <tr key={d._id}>
-                      <td>{productName}</td>
-                      <td>{d.cantidad}</td>
-                      <td>{d.precioUnitario}</td>
-                      <td>{d.subtotal}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="4" className="text-center">No hay detalles disponibles</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </section>
       </main>
     </div>
   );

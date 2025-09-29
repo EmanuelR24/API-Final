@@ -18,7 +18,18 @@ const Login = () => {
 
   return (
     <div className="full-screen-center">
-      <AuthForm onSubmit={handleLogin} isRegister={false} />
+      <div>
+        <AuthForm onSubmit={handleLogin} />
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+          ¿No tienes cuenta?{' '}
+          <span
+            style={{ color: '#7c3aed', cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={() => navigate('/register')}
+          >
+            Regístrate aquí
+          </span>
+        </p>
+      </div>
     </div>
   );
 };

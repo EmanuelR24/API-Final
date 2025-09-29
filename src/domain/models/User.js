@@ -8,18 +8,14 @@
  * @param {string} params.id - Identificador único.
  * @param {string} params.nombre - Nombre del usuario.
  * @param {string} params.email - Correo electrónico único.
- * @param {string} params.password - Contraseña hasheada.
- * @param {string} params.rol - Rol (admin o vendedor).
- * @param {Date} params.createdAt - Fecha de creación.
+ * @param {string} params.contraseña - Contraseña en texto plano.
  */
 class User {
-  constructor({ id, nombre, email, password, rol, createdAt }) {
+  constructor({ id, nombre, email, contraseña }) {
     this.id = id;
     this.nombre = nombre;
     this.email = email;
-    this.password = password;
-    this.rol = rol;
-    this.createdAt = createdAt;
+    this.contraseña = contraseña;
   }
 }
 

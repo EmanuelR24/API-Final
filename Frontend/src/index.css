@@ -59,6 +59,20 @@ body {
   outline: none;
 }
 
+/* Login */
+.form-input-lg {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--light-gray);
+  background-color: var(--secondary-bg);
+  color: var(--soft-white);
+  transition: border-color 0.3s;
+}
+.form-input-lg:focus {
+  border-color: var(--purple-accent);
+  outline: none;
+}
+
 .button-primary {
   width: 100%;
   padding: 0.75rem;

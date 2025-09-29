@@ -66,20 +66,17 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
-        <section className="dashboard-section">
-          <h2 className="subtitle">Acciones Rápidas</h2>
-          <ul className="action-list">
-            <li>
-              <Link to="/products" className="action-link">
-                Gestionar Productos
-              </Link>
-            </li>
-            <li>
-              <Link to="/orders" className="action-link">
-                Gestionar Pedidos
-              </Link>
-            </li>
-          </ul>
+        <section>
+          <h2>Usuarios</h2>
+          {/* Aquí iría la lista de usuarios */}
+        </section>
+        <section>
+          <h2>Productos</h2>
+          {/* Aquí iría la lista de productos */}
+        </section>
+        <section>
+          <h2>Pedidos</h2>
+          {/* Aquí iría la lista de pedidos */}
         </section>
       </main>
     </div>
