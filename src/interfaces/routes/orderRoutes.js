@@ -9,7 +9,7 @@ import { createOrder, getOrders, getOrderById, cancelOrder } from "../controller
 
 const router = Router();
 
-router.use(authMiddleware);  // Protege todos
+router.use(authMiddleware);  
 
 router.post("/", createOrder);
 router.get("/", getOrders);

@@ -9,7 +9,7 @@ import { createProduct, getProducts, getProductById, updateProduct, deleteProduc
 
 const router = Router();
 
-router.use(authMiddleware);  // Protege todos
+router.use(authMiddleware);  
 
 router.post("/", createProduct);
 router.get("/", getProducts);

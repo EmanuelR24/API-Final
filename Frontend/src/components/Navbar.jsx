@@ -10,7 +10,17 @@ const Navbar = () => {
       <li><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
       <li><Link to="/products" className="nav-link">Productos</Link></li>
       <li><Link to="/orders" className="nav-link">Pedidos</Link></li>
-      <li><button onClick={navigate('/login')} className="nav-link button-link">Logout</button></li>
+      <li>
+        <button
+          onClick={() => {
+            logout();
+            navigate('/login');
+          }}
+          className="nav-link button-link"
+        >
+          Logout
+        </button>
+      </li>
     </ul>
   </nav>
 );
