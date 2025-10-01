@@ -18,6 +18,9 @@ const productRepository = new ProductRepositoryMongo();
 
 export const createProduct = async (req, res) => {
   try {
+    if (typeof req.body.stock === "number" && req.body.stock < 0) {
+      return res.status(400).json({ error: "El stock no puede ser negativo" });
+    }
     const createProductUseCase = new CreateProduct(productRepository);
     const product = await createProductUseCase.execute(req.body);
     res.status(201).json(product);
