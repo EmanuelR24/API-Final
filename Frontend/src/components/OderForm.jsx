@@ -99,24 +99,18 @@ const OrderForm = ({ products, onSubmit }) => {
           <thead>
             <tr>
               <th>Producto</th>
+              <th>Precio Unitario</th>
               <th>Cantidad</th>
-              <th>Acción</th>
+              <th>Subtotal</th>
             </tr>
           </thead>
           <tbody>
-            {details.map((d, index) => (
+            {order.details && order.details.map((detail, index) => (
               <tr key={index}>
-                <td>{products.find(p => p._id === d.productoId)?.nombre}</td>
-                <td>{d.cantidad}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => removeItem(index)}
-                    className="button-secondary"
-                  >
-                    Eliminar
-                  </button>
-                </td>
+                <td>{detail.productoId?.nombre}</td>  
+                <td>${detail.precioUnitario}</td>
+                <td>{detail.cantidad}</td>
+                <td>${detail.subtotal}</td>
               </tr>
             ))}
           </tbody>
