@@ -10,13 +10,13 @@ const OrderForm = ({ products, onSubmit }) => {
   const addItem = () => {
     if (!selectedProduct || cantidad <= 0) return;
 
-    const product = localProducts.find(p => p._id === selectedProduct);
+    const product = localProducts.find(p => String(p._id) === String(selectedProduct));
     if (!product) {
       setError('Producto no encontrado');
       return;
     }
 
-    const existing = details.find(d => d.productoId === selectedProduct);
+    const existing = details.find(d => d.productoId === String(selectedProduct));
     const alreadyAdded = existing ? existing.cantidad : 0;
 
     if (alreadyAdded + cantidad > product.stock) {
@@ -29,21 +29,22 @@ const OrderForm = ({ products, onSubmit }) => {
     }
 
     setLocalProducts(localProducts.map(p =>
-      p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
+      String(p._id) === String(selectedProduct) ? { ...p, stock: p.stock - cantidad } : p
     ));
 
     if (existing) {
       setDetails(details.map(d =>
-        d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
+        d.productoId === String(selectedProduct) ? { ...d, cantidad: d.cantidad + cantidad } : d
       ));
     } else {
-      setDetails([...details, { productoId: selectedProduct, cantidad }]);
+      setDetails([...details, { productoId: String(selectedProduct), cantidad }]);
     }
 
     setSelectedProduct('');
     setCantidad(1);
     setError('');
   };
+
 
   const removeItem = (index) => {
     const removed = details[index];
@@ -61,7 +62,6 @@ const OrderForm = ({ products, onSubmit }) => {
     console.log("Productos disponibles:", localProducts);
   console.log("Detalles actuales:", details);
 
-    if (details.length > 0) {
       const detallesConPrecios = details.map(d => {
         const product = localProducts.find(p => p._id === d.productoId);
         const precioUnitario = product?.precio ?? 0;
@@ -77,11 +77,10 @@ const OrderForm = ({ products, onSubmit }) => {
       console.log("Detalles listos para enviar:", detallesConPrecios);
     
       onSubmit({ details: detallesConPrecios });
-    } else {
-      setError('Agrega al menos un producto antes de crear el pedido.');
-    }
   };
 
+  console.log("Detalles:", details);
+  console.log("LocalProducts:", localProducts);
 
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -126,7 +125,7 @@ const OrderForm = ({ products, onSubmit }) => {
               <tbody>
                 {details.length > 0 ? (
                   details.map((detail, index) => {
-                    const product = localProducts.find(p => p._id === detail.productoId);
+                      const product = localProducts.find(p => String(p._id) === String(detail.productoId));
                   
                     const precioUnitario = product?.precio ?? 0;
                     const subtotal = precioUnitario * detail.cantidad;
