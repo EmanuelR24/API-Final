@@ -6,33 +6,36 @@ import { getOrders, cancelOrder, createOrder, getProducts } from '../services/ap
 import Navbar from '../components/Navbar';
 
 const Orders = () => {
-
-  useEffect(() => {
-  Promise.all([getOrderById(id), getProducts()])
-    .then(([orderRes, productsRes]) => {
-      console.log('Datos del pedido crudos:', orderRes.data);  // Debería mostrar { ..., details: [{productoId: {nombre: '...', ...}, cantidad: ..., ...}] }
-      console.log('Detalles del pedido:', orderRes.data.details || 'Vacío');  // Verifica si details es array
-      console.log('Lista de productos:', productsRes.data);
-      setOrder(orderRes.data);
-      setProducts(productsRes.data);
-    })
-    .catch(() => navigate('/orders'));
-}, [id]);
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true); // Agregado para mejor UX
+  const [error, setError] = useState(null); // Agregado para errores
   const navigate = useNavigate();
 
   useEffect(() => {
-    getOrders().then(res => setOrders(res.data)).catch(() => navigate('/login'));
-    getProducts().then(res => setProducts(res.data));
-  }, []);
+    const loadData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [ordersRes, productsRes] = await Promise.all([getOrders(), getProducts()]);
+        setOrders(ordersRes.data);
+        setProducts(productsRes.data);
+      } catch (err) {
+        setError('Error al cargar datos');
+        navigate('/login'); // Redirige si es error de auth, o maneja según err
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []); // Ejecuta solo al montar
 
   const handleCreate = async (data) => {
     try {
       await createOrder(data);
       setShowForm(false);
-      const res = await getOrders();
+      const res = await getOrders(); // Re-fetch para actualizar lista
       setOrders(res.data);
     } catch (err) {
       alert('Error: Stock insuficiente o otro problema');
@@ -40,12 +43,19 @@ const Orders = () => {
   };
 
   const handleCancel = async (id) => {
-    await cancelOrder(id);
-    const res = await getOrders();
-    setOrders(res.data);
+    try {
+      await cancelOrder(id);
+      const res = await getOrders(); // Re-fetch para actualizar
+      setOrders(res.data);
+    } catch (err) {
+      alert('Error al cancelar el pedido');
+    }
   };
 
   const handleView = (id) => navigate(`/orders/${id}`);
+
+  if (loading) return <p className="loading-text">Cargando pedidos...</p>;
+  if (error) return <p className="error-text">{error}</p>;
 
   return (
     <div className="container">
