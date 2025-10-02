@@ -143,10 +143,6 @@ export default function OrderDetail() {
             <p>Usuario</p>
             <h3>{order.usuarioId}</h3>
           </div>
-          <div className="card">
-            <p>ID Pedido</p>
-            <h3>{order._id}</h3>
-          </div>
         </div>
 
         {/* Lista de productos */}
