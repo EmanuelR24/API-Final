@@ -4,13 +4,39 @@ const OrderForm = ({ products, onSubmit }) => {
   const [details, setDetails] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [cantidad, setCantidad] = useState(1);
+  const [error, setError] = useState('');
 
   const addItem = () => {
-    if (selectedProduct && cantidad > 0) {
-      setDetails([...details, { productoId: selectedProduct, cantidad }]);
-      setSelectedProduct('');
-      setCantidad(1);
+    if (!selectedProduct || cantidad <= 0) return;
+
+    const product = products.find(p => p._id === selectedProduct);
+    if (!product) {
+      setError('Producto no encontrado');
+      return;
     }
+
+    // Cantidad ya agregada de ese producto
+    const existing = details.find(d => d.productoId === selectedProduct);
+    const alreadyAdded = existing ? existing.cantidad : 0;
+
+    if (alreadyAdded + cantidad > product.stock) {
+      setError(`Stock insuficiente para ${product.nombre}. Máximo disponible: ${product.stock - alreadyAdded}`);
+      return;
+    }
+
+    // Si ya estaba, actualiza la cantidad
+    if (existing) {
+      setDetails(details.map(d =>
+        d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
+      ));
+    } else {
+      setDetails([...details, { productoId: selectedProduct, cantidad }]);
+    }
+
+    // Reset
+    setSelectedProduct('');
+    setCantidad(1);
+    setError('');
   };
 
   const removeItem = (index) => {
@@ -21,6 +47,8 @@ const OrderForm = ({ products, onSubmit }) => {
     e.preventDefault();
     if (details.length > 0) {
       onSubmit({ details });
+    } else {
+      setError('Agrega al menos un producto antes de crear el pedido.');
     }
   };
 
@@ -30,11 +58,23 @@ const OrderForm = ({ products, onSubmit }) => {
         <h2 className="subtitle">Agregar Item</h2>
         <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="form-input">
           <option value="">Selecciona Producto</option>
-          {products.map(p => <option key={p._id} value={p._id}>{p.nombre} (Stock: {p.stock})</option>)}
+          {products.map(p => (
+            <option key={p._id} value={p._id}>
+              {p.nombre} (Stock: {p.stock})
+            </option>
+          ))}
         </select>
-        <input type="number" value={cantidad} onChange={(e) => setCantidad(parseInt(e.target.value))} min="1" className="form-input" />
+        <input
+          type="number"
+          value={cantidad}
+          onChange={(e) => setCantidad(parseInt(e.target.value))}
+          min="1"
+          className="form-input"
+        />
         <button type="button" onClick={addItem} className="button-primary">Agregar Item</button>
+        {error && <p className="error-text">{error}</p>}
       </section>
+
       <section className="form-section">
         <h2 className="subtitle">Items Agregados</h2>
         <table className="table">
@@ -50,12 +90,17 @@ const OrderForm = ({ products, onSubmit }) => {
               <tr key={index}>
                 <td>{products.find(p => p._id === d.productoId)?.nombre}</td>
                 <td>{d.cantidad}</td>
-                <td><button type="button" onClick={() => removeItem(index)} className="button-secondary">Eliminar</button></td>
+                <td>
+                  <button type="button" onClick={() => removeItem(index)} className="button-secondary">
+                    Eliminar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
+
       <button type="submit" className="button-primary">Crear Pedido</button>
     </form>
   );
