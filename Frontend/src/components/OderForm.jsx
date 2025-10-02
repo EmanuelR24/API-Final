@@ -104,16 +104,20 @@ const OrderForm = ({ products, onSubmit }) => {
               <th>Subtotal</th>
             </tr>
           </thead>
-          <tbody>
-            {order.details && order.details.map((detail, index) => (
-              <tr key={index}>
-                <td>{detail.productoId?.nombre}</td>  
-                <td>${detail.precioUnitario}</td>
-                <td>{detail.cantidad}</td>
-                <td>${detail.subtotal}</td>
-              </tr>
-            ))}
-          </tbody>
+            <tbody>
+              {details.map((detail, index) => {
+                const product = products.find(p => p._id === detail.productoId);
+                return (
+                  <tr key={index}>
+                    <td>{product?.nombre}</td>
+                    <td>${product?.precio}</td>
+                    <td>{detail.cantidad}</td>
+                    <td>${product ? product.precio * detail.cantidad : 0}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+
         </table>
       </section>
 
