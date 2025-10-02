@@ -54,9 +54,12 @@ export default class CreateOrder {
       estado: "activo"
     });
 
+    console.log("Pedido creado:", order);
+
     // Crear los detalles asociados al pedido
     for (const detail of details) {
       detail.pedidoId = order._id;
+      console.log("Detalle a guardar:", detail);
       await this.orderDetailRepository.create(detail);
     }
 
