@@ -32,7 +32,6 @@ const OrderForm = ({ products, onSubmit }) => {
       p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
     ));
 
-    
     if (existing) {
       setDetails(details.map(d =>
         d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
@@ -53,7 +52,6 @@ const OrderForm = ({ products, onSubmit }) => {
         p._id === removed.productoId ? { ...p, stock: p.stock + removed.cantidad } : p
       ));
     }
-
     setDetails(details.filter((_, i) => i !== index));
   };
 
@@ -76,7 +74,7 @@ const OrderForm = ({ products, onSubmit }) => {
           className="form-input"
         >
           <option value="">Selecciona Producto</option>
-          {localProducts.map(p => (  
+          {localProducts.map(p => (   
             <option key={p._id} value={p._id}>
               {p.nombre} (Stock: {p.stock})
             </option>
@@ -108,7 +106,7 @@ const OrderForm = ({ products, onSubmit }) => {
           <tbody>
             {details.map((d, index) => (
               <tr key={index}>
-                <td>{localProducts.find(p => p._id === d.productoId)?.nombre}</td>
+                <td>{products.find(p => p._id === d.productoId)?.nombre}</td>
                 <td>{d.cantidad}</td>
                 <td>
                   <button
