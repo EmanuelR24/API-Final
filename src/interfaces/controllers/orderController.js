@@ -57,6 +57,7 @@ export const cancelOrder = async (req, res) => {
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
     res.json(order);
   } catch (err) {
+    console.error('Error al cancelar pedido:', err);
     res.status(500).json({ error: err.message });
   }
 };
