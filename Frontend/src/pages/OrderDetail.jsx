@@ -22,6 +22,9 @@ const OrderDetail = () => {
 
   const getProductName = (id) => products.find(p => p._id === id)?.nombre || id;
 
+  // Asegura que order.details sea un array
+  const details = Array.isArray(order.details) ? order.details : [];
+
   return (
     <div className="container">
       <header>
@@ -47,8 +50,8 @@ const OrderDetail = () => {
               </tr>
             </thead>
             <tbody>
-              {(order.details && order.details.length > 0) ? (
-                order.details.map((d, idx) => (
+              {(details.length > 0) ? (
+                details.map((d, idx) => (
                   <tr key={idx}>
                     <td>{getProductName(d.productoId)}</td>
                     <td>{d.cantidad}</td>

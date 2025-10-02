@@ -21,8 +21,8 @@ export default class GetOrderById {
   async execute(id) {
     const order = await this.orderRepository.findById(id);
     if (!order) return null;
-    order.details = await this.orderDetailRepository.findByPedidoId(id);
-    if (!order.details) order.details = [];
+    const details = await this.orderDetailRepository.findByPedidoId(id);
+    order.details = Array.isArray(details) ? details : [];
     return order;
   }
 }

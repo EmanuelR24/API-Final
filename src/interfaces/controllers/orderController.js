@@ -43,6 +43,7 @@ export const getOrderById = async (req, res) => {
     const getOrderByIdUseCase = new GetOrderById(orderRepository, orderDetailRepository);
     const order = await getOrderByIdUseCase.execute(req.params.id);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+    // order.details ya está incluido por el use-case
     res.json(order);
   } catch (err) {
     res.status(500).json({ error: err.message });
