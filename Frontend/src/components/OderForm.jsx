@@ -5,12 +5,16 @@ const OrderForm = ({ products, onSubmit }) => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
-  const [localProducts, setLocalProducts] = useState(products); 
+  const [localProducts, setLocalProducts] = useState(products);
 
   const addItem = () => {
+    console.log("🔹 Intentando agregar producto:", selectedProduct, "cantidad:", cantidad);
+
     if (!selectedProduct || cantidad <= 0) return;
 
     const product = localProducts.find(p => p._id === selectedProduct);
+    console.log("✅ Producto encontrado:", product);
+
     if (!product) {
       setError('Producto no encontrado');
       return;
@@ -28,25 +32,46 @@ const OrderForm = ({ products, onSubmit }) => {
       return;
     }
 
+    // Restar stock
     setLocalProducts(localProducts.map(p =>
       p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
     ));
 
+    // Agregar o actualizar detalle
     if (existing) {
       setDetails(details.map(d =>
-        d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
+        d.productoId === selectedProduct
+          ? {
+              ...d,
+              cantidad: d.cantidad + cantidad,
+              subtotal: (d.cantidad + cantidad) * d.precioUnitario
+            }
+          : d
       ));
     } else {
-      setDetails([...details, { productoId: selectedProduct, cantidad }]);
+      setDetails([
+        ...details,
+        {
+          productoId: selectedProduct,
+          nombre: product.nombre,
+          precioUnitario: product.precio,
+          cantidad,
+          subtotal: cantidad * product.precio
+        }
+      ]);
     }
 
     setSelectedProduct('');
     setCantidad(1);
     setError('');
+
+    console.log("📦 Detalles actualizados:", details);
   };
 
   const removeItem = (index) => {
     const removed = details[index];
+    console.log("❌ Eliminando item:", removed);
+
     if (removed) {
       setLocalProducts(localProducts.map(p =>
         p._id === removed.productoId ? { ...p, stock: p.stock + removed.cantidad } : p
@@ -58,6 +83,7 @@ const OrderForm = ({ products, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (details.length > 0) {
+      console.log("🚀 Enviando pedido con detalles:", details);
       onSubmit({ details });
     } else {
       setError('Agrega al menos un producto antes de crear el pedido.');
@@ -74,7 +100,7 @@ const OrderForm = ({ products, onSubmit }) => {
           className="form-input"
         >
           <option value="">Selecciona Producto</option>
-          {localProducts.map(p => (   
+          {localProducts.map(p => (
             <option key={p._id} value={p._id}>
               {p.nombre} (Stock: {p.stock})
             </option>
@@ -102,21 +128,30 @@ const OrderForm = ({ products, onSubmit }) => {
               <th>Precio Unitario</th>
               <th>Cantidad</th>
               <th>Subtotal</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {order.details && order.details.map((detail, index) => (
+            {details.map((detail, index) => (
               <tr key={index}>
-                <td>{detail.productoId?.nombre}</td>
+                <td>{detail.nombre}</td>
                 <td>${detail.precioUnitario}</td>
                 <td>{detail.cantidad}</td>
                 <td>${detail.subtotal}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => removeItem(index)}
+                    className="button-danger"
+                  >
+                    Eliminar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
-
 
       <button type="submit" className="button-primary">Crear Pedido</button>
     </form>
