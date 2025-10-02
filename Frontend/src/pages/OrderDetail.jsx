@@ -18,6 +18,8 @@ export default function OrderDetail() {
     setError(null);
     try {
       const [orderRes, productsRes] = await Promise.all([getOrderById(id), getProducts()]);
+      console.log("Pedido recibido del backend:", orderRes.data);
+      console.log("Productos recibidos:", productsRes.data);
       setOrder(orderRes.data);
       setProducts(productsRes.data);
     } catch (e) {
@@ -48,6 +50,8 @@ export default function OrderDetail() {
 
   // Estadísticas
   const details = Array.isArray(order?.details) ? order.details : [];
+  console.log("Detalles del pedido:", details);
+
   const totalAmount = details.reduce((sum, d) => sum + (d.subtotal || 0), 0);
 
   // Estado visual
