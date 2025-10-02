@@ -5,13 +5,7 @@ const OrderForm = ({ products, onSubmit }) => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
-
-const OrderForm = ({ products, onSubmit }) => {
-  const [details, setDetails] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [cantidad, setCantidad] = useState(1);
-  const [error, setError] = useState('');
-  const [localProducts, setLocalProducts] = useState(products); // 👈 usamos copia local
+  const [localProducts, setLocalProducts] = useState(products); 
 
   const addItem = () => {
     if (!selectedProduct || cantidad <= 0) return;
@@ -26,7 +20,11 @@ const OrderForm = ({ products, onSubmit }) => {
     const alreadyAdded = existing ? existing.cantidad : 0;
 
     if (alreadyAdded + cantidad > product.stock) {
-      setError(`Stock insuficiente para ${product.nombre}. Máximo disponible: ${product.stock - alreadyAdded}`);
+      setError(
+        `Stock insuficiente para ${product.nombre}. Máximo disponible: ${
+          product.stock - alreadyAdded
+        }`
+      );
       return;
     }
 
@@ -34,6 +32,7 @@ const OrderForm = ({ products, onSubmit }) => {
       p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
     ));
 
+    
     if (existing) {
       setDetails(details.map(d =>
         d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
@@ -48,6 +47,13 @@ const OrderForm = ({ products, onSubmit }) => {
   };
 
   const removeItem = (index) => {
+    const removed = details[index];
+    if (removed) {
+      setLocalProducts(localProducts.map(p =>
+        p._id === removed.productoId ? { ...p, stock: p.stock + removed.cantidad } : p
+      ));
+    }
+
     setDetails(details.filter((_, i) => i !== index));
   };
 
@@ -64,9 +70,13 @@ const OrderForm = ({ products, onSubmit }) => {
     <form onSubmit={handleSubmit} className="form">
       <section className="form-section">
         <h2 className="subtitle">Agregar Item</h2>
-        <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="form-input">
+        <select
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+          className="form-input"
+        >
           <option value="">Selecciona Producto</option>
-          {products.map(p => (
+          {localProducts.map(p => (  
             <option key={p._id} value={p._id}>
               {p.nombre} (Stock: {p.stock})
             </option>
@@ -79,7 +89,9 @@ const OrderForm = ({ products, onSubmit }) => {
           min="1"
           className="form-input"
         />
-        <button type="button" onClick={addItem} className="button-primary">Agregar Item</button>
+        <button type="button" onClick={addItem} className="button-primary">
+          Agregar Item
+        </button>
         {error && <p className="error-text">{error}</p>}
       </section>
 
@@ -96,10 +108,14 @@ const OrderForm = ({ products, onSubmit }) => {
           <tbody>
             {details.map((d, index) => (
               <tr key={index}>
-                <td>{products.find(p => p._id === d.productoId)?.nombre}</td>
+                <td>{localProducts.find(p => p._id === d.productoId)?.nombre}</td>
                 <td>{d.cantidad}</td>
                 <td>
-                  <button type="button" onClick={() => removeItem(index)} className="button-secondary">
+                  <button
+                    type="button"
+                    onClick={() => removeItem(index)}
+                    className="button-secondary"
+                  >
                     Eliminar
                   </button>
                 </td>
