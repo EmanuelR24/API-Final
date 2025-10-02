@@ -6,16 +6,22 @@ const OrderForm = ({ products, onSubmit }) => {
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
 
+const OrderForm = ({ products, onSubmit }) => {
+  const [details, setDetails] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [cantidad, setCantidad] = useState(1);
+  const [error, setError] = useState('');
+  const [localProducts, setLocalProducts] = useState(products); // 👈 usamos copia local
+
   const addItem = () => {
     if (!selectedProduct || cantidad <= 0) return;
 
-    const product = products.find(p => p._id === selectedProduct);
+    const product = localProducts.find(p => p._id === selectedProduct);
     if (!product) {
       setError('Producto no encontrado');
       return;
     }
 
-    // Cantidad ya agregada de ese producto
     const existing = details.find(d => d.productoId === selectedProduct);
     const alreadyAdded = existing ? existing.cantidad : 0;
 
@@ -24,7 +30,10 @@ const OrderForm = ({ products, onSubmit }) => {
       return;
     }
 
-    // Si ya estaba, actualiza la cantidad
+    setLocalProducts(localProducts.map(p =>
+      p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
+    ));
+
     if (existing) {
       setDetails(details.map(d =>
         d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
@@ -33,11 +42,11 @@ const OrderForm = ({ products, onSubmit }) => {
       setDetails([...details, { productoId: selectedProduct, cantidad }]);
     }
 
-    // Reset
     setSelectedProduct('');
     setCantidad(1);
     setError('');
   };
+
 
   const removeItem = (index) => {
     setDetails(details.filter((_, i) => i !== index));
