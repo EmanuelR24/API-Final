@@ -37,8 +37,9 @@ class OrderDetailRepositoryMongo {
   }
 
   async findByPedidoId(pedidoId) {
-    return await OrderDetailModel.find({ pedidoId });
+  return await OrderDetailModel.find({ pedidoId }).populate("productoId");
   }
+
 
   async update(id, detailData) {
     return await OrderDetailModel.findByIdAndUpdate(id, detailData, { new: true });
