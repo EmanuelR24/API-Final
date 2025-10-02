@@ -45,8 +45,11 @@ export default function OrderDetail() {
     }
   };
 
-  // Obtener nombre del producto por id
-  const getProductName = (pid) => products.find(p => p._id === pid)?.nombre || pid;
+  // Obtener nombre del producto por id (ahora productoId es objeto populado)
+  const getProductName = (pidOrObj) => {
+    if (typeof pidOrObj === 'object' && pidOrObj !== null && pidOrObj.nombre) return pidOrObj.nombre;
+    return typeof pidOrObj === 'string' ? pidOrObj : 'Desconocido';
+  };
 
   // Estadísticas
   const details = Array.isArray(order?.details) ? order.details : [];
@@ -164,7 +167,7 @@ export default function OrderDetail() {
                   <tr key={idx}>
                     <td>
                       <span className="font-medium">{getProductName(d.productoId)}</span>
-                      <div className="text-gray-500 text-xs">ID: {d.productoId}</div>
+                      <div className="text-gray-500 text-xs">ID: {typeof d.productoId === 'object' ? d.productoId._id : d.productoId}</div>
                     </td>
                     <td>{d.cantidad}</td>
                     <td>${d.precioUnitario}</td>
