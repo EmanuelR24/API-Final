@@ -8,7 +8,7 @@
  */
 import CreateOrder from "../../application/use-cases/CreateOrder.js";
 import GetOrders from "../../application/use-cases/GetOrders.js";
-import GetOrderById from "../../application/use-cases/GetOderById.js";  // Corregido: Agregada la 'r' en GetOrderById.js
+import GetOrderById from "../../application/use-cases/GetOderById.js"; // El nombre del archivo es GetOderById.js
 import CancelOrder from "../../application/use-cases/CancelOrder.js";
 import OrderRepositoryMongo from "../../infrastructure/repositories/OrderRepositoryMongo.js";
 import OrderDetailRepositoryMongo from "../../infrastructure/repositories/OrderDetailRepositoryMongo.js";
@@ -21,7 +21,7 @@ const productRepository = new ProductRepositoryMongo();
 export const createOrder = async (req, res) => {
   try {
     const createOrderUseCase = new CreateOrder(orderRepository, orderDetailRepository, productRepository);
-    const order = await createOrderUseCase.execute({ ...req.body, usuarioId: req.user.id });  // Usa ID de usuario autenticado
+    const order = await createOrderUseCase.execute({ ...req.body, usuarioId: req.user.id });
     res.status(201).json(order);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -43,11 +43,8 @@ export const getOrderById = async (req, res) => {
     const getOrderByIdUseCase = new GetOrderById(orderRepository, orderDetailRepository);
     const order = await getOrderByIdUseCase.execute(req.params.id);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    // Si order.details no existe, agrega un array vacío para evitar errores en el frontend
-    if (!order.details) order.details = [];
     res.json(order);
   } catch (err) {
-    console.error('Error en getOrderById:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -59,7 +56,6 @@ export const cancelOrder = async (req, res) => {
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
     res.json(order);
   } catch (err) {
-    console.error('Error al cancelar pedido:', err);
     res.status(500).json({ error: err.message });
   }
 };

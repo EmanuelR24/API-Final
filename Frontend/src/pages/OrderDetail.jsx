@@ -12,8 +12,6 @@ const OrderDetail = () => {
   useEffect(() => {
     Promise.all([getOrderById(id), getProducts()])
       .then(([orderRes, productsRes]) => {
-        console.log('Datos del pedido crudos:', orderRes.data); 
-      console.log('Lista de productos:', productsRes.data);
         setOrder(orderRes.data);
         setProducts(productsRes.data);
       })
@@ -22,7 +20,6 @@ const OrderDetail = () => {
 
   if (!order) return <p className="loading-text">Cargando...</p>;
 
-  // Helper para obtener nombre del producto por id
   const getProductName = (id) => products.find(p => p._id === id)?.nombre || id;
 
   return (
@@ -38,7 +35,6 @@ const OrderDetail = () => {
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </section>
-        {/* Tabla de productos del pedido */}
         {order.details && order.details.length > 0 && (
           <section className="detail-section">
             <h2 className="subtitle">Productos del Pedido</h2>

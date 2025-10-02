@@ -26,3 +26,5 @@ export default class GetOrderById {
     return order;
   }
 }
+
+// No changes needed, solo asegúrate que el archivo se llama GetOderById.js
