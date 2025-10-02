@@ -5,16 +5,12 @@ const OrderForm = ({ products, onSubmit }) => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [cantidad, setCantidad] = useState(1);
   const [error, setError] = useState('');
-  const [localProducts, setLocalProducts] = useState(products);
+  const [localProducts, setLocalProducts] = useState(products); 
 
   const addItem = () => {
-    console.log("🔹 Intentando agregar producto:", selectedProduct, "cantidad:", cantidad);
-
     if (!selectedProduct || cantidad <= 0) return;
 
     const product = localProducts.find(p => p._id === selectedProduct);
-    console.log("✅ Producto encontrado:", product);
-
     if (!product) {
       setError('Producto no encontrado');
       return;
@@ -32,46 +28,25 @@ const OrderForm = ({ products, onSubmit }) => {
       return;
     }
 
-    // Restar stock
     setLocalProducts(localProducts.map(p =>
       p._id === selectedProduct ? { ...p, stock: p.stock - cantidad } : p
     ));
 
-    // Agregar o actualizar detalle
     if (existing) {
       setDetails(details.map(d =>
-        d.productoId === selectedProduct
-          ? {
-              ...d,
-              cantidad: d.cantidad + cantidad,
-              subtotal: (d.cantidad + cantidad) * d.precioUnitario
-            }
-          : d
+        d.productoId === selectedProduct ? { ...d, cantidad: d.cantidad + cantidad } : d
       ));
     } else {
-      setDetails([
-        ...details,
-        {
-          productoId: selectedProduct,
-          nombre: product.nombre,
-          precioUnitario: product.precio,
-          cantidad,
-          subtotal: cantidad * product.precio
-        }
-      ]);
+      setDetails([...details, { productoId: selectedProduct, cantidad }]);
     }
 
     setSelectedProduct('');
     setCantidad(1);
     setError('');
-
-    console.log("📦 Detalles actualizados:", details);
   };
 
   const removeItem = (index) => {
     const removed = details[index];
-    console.log("❌ Eliminando item:", removed);
-
     if (removed) {
       setLocalProducts(localProducts.map(p =>
         p._id === removed.productoId ? { ...p, stock: p.stock + removed.cantidad } : p
@@ -82,13 +57,31 @@ const OrderForm = ({ products, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log("Productos disponibles:", localProducts);
+  console.log("Detalles actuales:", details);
+
     if (details.length > 0) {
-      console.log("🚀 Enviando pedido con detalles:", details);
-      onSubmit({ details });
+      const detallesConPrecios = details.map(d => {
+        const product = localProducts.find(p => p._id === d.productoId);
+        const precioUnitario = product?.precio ?? 0;
+        const subtotal = precioUnitario * d.cantidad;
+      
+        return {
+          ...d,
+          precioUnitario,
+          subtotal
+        };
+      });
+    
+      console.log("Detalles listos para enviar:", detallesConPrecios);
+    
+      onSubmit({ details: detallesConPrecios });
     } else {
       setError('Agrega al menos un producto antes de crear el pedido.');
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -100,7 +93,7 @@ const OrderForm = ({ products, onSubmit }) => {
           className="form-input"
         >
           <option value="">Selecciona Producto</option>
-          {localProducts.map(p => (
+          {localProducts.map(p => (   
             <option key={p._id} value={p._id}>
               {p.nombre} (Stock: {p.stock})
             </option>
@@ -128,30 +121,39 @@ const OrderForm = ({ products, onSubmit }) => {
               <th>Precio Unitario</th>
               <th>Cantidad</th>
               <th>Subtotal</th>
-              <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            {details.map((detail, index) => (
-              <tr key={index}>
-                <td>{detail.nombre}</td>
-                <td>${detail.precioUnitario}</td>
-                <td>{detail.cantidad}</td>
-                <td>${detail.subtotal}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => removeItem(index)}
-                    className="button-danger"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+              <tbody>
+                {details.length > 0 ? (
+                  details.map((detail, index) => {
+                    const product = localProducts.find(p => p._id === detail.productoId);
+                  
+                    const precioUnitario = product?.precio ?? 0;
+                    const subtotal = precioUnitario * detail.cantidad;
+                  
+                    return (
+                      <tr key={index}>
+                        <td>{product?.nombre ?? 'Desconocido'}</td>
+                        <td>${precioUnitario}</td>
+                        <td>{detail.cantidad}</td>
+                        <td>${subtotal}</td>
+                        <td>
+                          <button type="button" onClick={() => removeItem(index)}>
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="5">No hay productos en el pedido</td>
+                  </tr>
+                )}
+              </tbody>
         </table>
       </section>
+
 
       <button type="submit" className="button-primary">Crear Pedido</button>
     </form>
