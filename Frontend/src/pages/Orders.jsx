@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderTable from '../components/OrderTable';
-import OrderForm from '../components/OderForm';
+import OrderForm from '../components/OrderForm';
 import { getOrders, cancelOrder, createOrder, getProducts } from '../services/api';
 import Navbar from '../components/Navbar';
 
 const Orders = () => {
+
+  useEffect(() => {
+  Promise.all([getOrderById(id), getProducts()])
+    .then(([orderRes, productsRes]) => {
+      console.log('Datos del pedido crudos:', orderRes.data);  // Debería mostrar { ..., details: [{productoId: {nombre: '...', ...}, cantidad: ..., ...}] }
+      console.log('Detalles del pedido:', orderRes.data.details || 'Vacío');  // Verifica si details es array
+      console.log('Lista de productos:', productsRes.data);
+      setOrder(orderRes.data);
+      setProducts(productsRes.data);
+    })
+    .catch(() => navigate('/orders'));
+}, [id]);
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
