@@ -34,30 +34,36 @@ const OrderDetail = () => {
           <p>Total: ${order.total}</p>
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
-        </section>g
-          <section className="detail-section">
-            <h2 className="subtitle">Productos del Pedido</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {order.details.map((d, idx) => (
+        </section>
+        <section className="detail-section">
+          <h2 className="subtitle">Productos del Pedido</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(order.details && order.details.length > 0) ? (
+                order.details.map((d, idx) => (
                   <tr key={idx}>
                     <td>{getProductName(d.productoId)}</td>
                     <td>{d.cantidad}</td>
                     <td>${d.precioUnitario}</td>
                     <td>${d.subtotal}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: 'center' }}>No hay productos en este pedido.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </section>
       </main>
     </div>
   );
