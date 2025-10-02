@@ -34,8 +34,7 @@ const OrderDetail = () => {
           <p>Total: ${order.total}</p>
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
-        </section>
-        {order.details && order.details.length > 0 && (
+        </section>g
           <section className="detail-section">
             <h2 className="subtitle">Productos del Pedido</h2>
             <table className="table">
@@ -59,7 +58,6 @@ const OrderDetail = () => {
               </tbody>
             </table>
           </section>
-        )}
       </main>
     </div>
   );
