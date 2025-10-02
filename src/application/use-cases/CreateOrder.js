@@ -24,12 +24,6 @@ export default class CreateOrder {
     let total = 0;
     const details = [];
 
-    // Validar que haya al menos un producto
-    if (!orderData.details || !Array.isArray(orderData.details) || orderData.details.length === 0) {
-      throw new Error("El pedido debe tener al menos un producto");
-    }
-
-    // Calcular totales y descontar stock
     for (const item of orderData.details) {
       const product = await this.productRepository.findById(item.productoId);
       if (!product || product.stock < item.cantidad) {
@@ -47,24 +41,17 @@ export default class CreateOrder {
       await this.productRepository.update(product._id, { stock: product.stock });
     }
 
-    // Crear el pedido (solo uno)
     const order = await this.orderRepository.create({
       usuarioId: orderData.usuarioId,
       total,
       estado: "activo"
     });
 
-    // Crear los detalles asociados al pedido
     for (const detail of details) {
       detail.pedidoId = order._id;
       await this.orderDetailRepository.create(detail);
     }
 
-    // Consultar los detalles reales desde la base de datos (populados)
-    const realDetails = await this.orderDetailRepository.findByPedidoId(order._id);
-    order.details = Array.isArray(realDetails) ? realDetails : [];
-
-    // Retornar el pedido con los detalles
     return order;
   }
 }

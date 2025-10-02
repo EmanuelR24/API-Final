@@ -43,9 +43,11 @@ export const getOrderById = async (req, res) => {
     const getOrderByIdUseCase = new GetOrderById(orderRepository, orderDetailRepository);
     const order = await getOrderByIdUseCase.execute(req.params.id);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    res.json(order);  // Ahora debería incluir order.details si existen en la DB
+    // Si order.details no existe, agrega un array vacío para evitar errores en el frontend
+    if (!order.details) order.details = [];
+    res.json(order);
   } catch (err) {
-    console.error('Error en getOrderById:', err);  // Agregado: Log para depuración
+    console.error('Error en getOrderById:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -57,6 +59,7 @@ export const cancelOrder = async (req, res) => {
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
     res.json(order);
   } catch (err) {
+    console.error('Error al cancelar pedido:', err);
     res.status(500).json({ error: err.message });
   }
 };

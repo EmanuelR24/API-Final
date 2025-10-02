@@ -37,8 +37,7 @@ class OrderDetailRepositoryMongo {
   }
 
   async findByPedidoId(pedidoId) {
-    // Popular el producto para que cada detalle incluya el objeto producto
-    return await OrderDetailModel.find({ pedidoId }).populate('productoId');
+    return await OrderDetailModel.find({ pedidoId });
   }
 
   async update(id, detailData) {
