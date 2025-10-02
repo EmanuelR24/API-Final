@@ -37,8 +37,7 @@ const OrderDetail = () => {
           <p>Total: ${order.total}</p>
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
-        </section>
-        <section className="detail-section">
+
           <h2 className="subtitle">Productos del Pedido</h2>
           <table className="table">
             <thead>
