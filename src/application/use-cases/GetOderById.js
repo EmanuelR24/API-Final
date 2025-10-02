@@ -21,10 +21,8 @@ export default class GetOrderById {
   async execute(id) {
     const order = await this.orderRepository.findById(id);
     if (!order) return null;
-    // Los detalles ya incluyen el producto populado
-    const details = await this.orderDetailRepository.findByPedidoId(id);
-    order.details = Array.isArray(details) ? details : [];
+    order.details = await this.orderDetailRepository.findByPedidoId(id);
+  console.log('Detalles encontrados para pedido', id, ':', order.details);
     return order;
   }
 }
-
