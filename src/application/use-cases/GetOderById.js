@@ -19,10 +19,13 @@ export default class GetOrderById {
   }
 
   async execute(id) {
-    const order = await this.orderRepository.findById(id);
-    if (!order) return null;
-    order.details = await this.orderDetailRepository.findByPedidoId(id);
-    if (!order.details) order.details = [];
-    return order;
-  }
+  const order = await this.orderRepository.findById(id);
+  if (!order) throw new Error("Pedido no encontrado");
+
+  const details = await this.orderDetailRepository.findByPedidoId(id);
+  order.details = details;
+
+  return order;
+}
+
 }
