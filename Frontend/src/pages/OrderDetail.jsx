@@ -67,6 +67,9 @@ export default function OrderDetail() {
   };
   const statusConfig = getStatusConfig(order?.estado);
 
+  const [orderRes, productsRes] = await Promise.all([getOrderById(id), getProducts()]);
+  console.log("Respuesta cruda del API:", orderRes.data);  // Debería mostrar details si existen
+  console.log("Details después de setOrder:", orderRes.data.details);  // Debería ser array con objetos
   // Loading/error
   if (loading) return (
     <div className="loading-text">Cargando pedido...</div>
