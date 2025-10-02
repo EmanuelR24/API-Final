@@ -47,7 +47,6 @@ const OrderForm = ({ products, onSubmit }) => {
     setError('');
   };
 
-
   const removeItem = (index) => {
     setDetails(details.filter((_, i) => i !== index));
   };
