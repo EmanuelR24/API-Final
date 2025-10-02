@@ -22,6 +22,9 @@ const OrderDetail = () => {
 
   if (!order) return <p className="loading-text">Cargando...</p>;
 
+  // Helper para obtener nombre del producto por id
+  const getProductName = (id) => products.find(p => p._id === id)?.nombre || id;
+
   return (
     <div className="container">
       <header>
@@ -35,6 +38,32 @@ const OrderDetail = () => {
           <p>Estado: {order.estado}</p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </section>
+        {/* Tabla de productos del pedido */}
+        {order.details && order.details.length > 0 && (
+          <section className="detail-section">
+            <h2 className="subtitle">Productos del Pedido</h2>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {order.details.map((d, idx) => (
+                  <tr key={idx}>
+                    <td>{getProductName(d.productoId)}</td>
+                    <td>{d.cantidad}</td>
+                    <td>${d.precioUnitario}</td>
+                    <td>${d.subtotal}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        )}
       </main>
     </div>
   );
